@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEOM30009 A2 — Person C Steps</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 24px; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+  h1 { font-size: 1.6rem; margin-bottom: 4px; color: #fff; }
+  .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 32px; }
+  .update-banner { background: #3b2000; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 16px; margin-bottom: 28px; font-size: 0.85rem; color: #fbbf24; }
+  .phase { margin-bottom: 32px; }
+  .phase-header { background: #1a1a2e; border-left: 4px solid #6366f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-weight: 700; font-size: 1.1rem; }
+  .phase-header .tag { font-size: 0.7rem; background: #6366f1; color: #fff; padding: 2px 8px; border-radius: 99px; margin-left: 8px; vertical-align: middle; }
+  .step { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; border-bottom: 1px solid #1e1e1e; }
+  .step:last-child { border-bottom: none; }
+  .step input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; accent-color: #6366f1; flex-shrink: 0; }
+  .step label { cursor: pointer; }
+  .step.checked label { text-decoration: line-through; color: #555; }
+  .note { background: #1a1a1a; border-radius: 6px; padding: 10px 14px; font-size: 0.82rem; color: #aaa; margin: 8px 0 4px 30px; border-left: 3px solid #444; }
+  .warn { border-left-color: #f59e0b; color: #fbbf24; background: #1f1a0e; }
+  .skip { border-left-color: #ef4444; color: #f87171; background: #1f0e0e; }
+  .filename { font-family: 'SF Mono', Menlo, monospace; background: #222; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #a5b4fc; }
+  .severity-table { width: 100%; border-collapse: collapse; margin: 8px 0 4px 30px; font-size: 0.82rem; }
+  .severity-table th { text-align: left; padding: 6px 8px; background: #1a1a2e; color: #a5b4fc; }
+  .severity-table td { padding: 6px 8px; border-bottom: 1px solid #1e1e1e; }
+  .severity-table .swatch { width: 16px; height: 16px; border-radius: 3px; display: inline-block; vertical-align: middle; margin-right: 6px; }
+  .output { margin: 16px 0 0 0; padding: 12px 16px; background: #0e1a0e; border: 1px solid #22c55e; border-radius: 8px; }
+  .output h3 { color: #22c55e; font-size: 0.9rem; margin-bottom: 6px; }
+  .output ul { list-style: none; padding: 0; }
+  .output li { padding: 3px 0; font-size: 0.85rem; }
+  .output li::before { content: "-> "; color: #22c55e; }
+  .progress-bar { background: #1a1a1a; height: 8px; border-radius: 99px; margin-bottom: 24px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #6366f1; border-radius: 99px; width: 0%; transition: width 0.3s; }
+  .progress-text { font-size: 0.8rem; color: #888; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<h1>GEOM30009 A2 — Person C Checklist</h1>
+<p class="subtitle">Henry's ENVI steps (from the assignment PDF + Canvas update)</p>
+
+<div class="progress-text">Progress: <span id="prog-count">0</span> / <span id="prog-total">0</span></div>
+<div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+
+<div class="update-banner">
+  <strong>Canvas Update:</strong> Step 2.2 (radiometric calibration to TOA reflectance) has been REMOVED. Compute spectral indices directly on the raw multispectral image with the water mask applied. No need to create any Reflectance.dat files.
+</div>
+
+<!-- PHASE 1 -->
+<div class="phase">
+  <div class="phase-header">Phase 1: Pre-Fire Water Mask + NBR <span class="tag">~20 min</span></div>
+
+  <div class="step"><input type="checkbox" id="s1"><label for="s1">Open pre-fire image: <strong>File > Open</strong> > navigate to pre-fire folder > select <span class="filename">*_MTL.xml</span> > Open</label></div>
+  <div class="note">Ignore the "tiles not displayed properly" warning if it appears.</div>
+
+  <div class="step"><input type="checkbox" id="s2"><label for="s2">Right-click layer > <strong>Zoom to Layer Extent</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s3"><label for="s3">Right-click the <strong>Pre Fire image</strong> in Layer Manager > <strong>New Region of Interest</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s4"><label for="s4">Rename ROI to <strong>"Water ROI"</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s5"><label for="s5">In ROI Tool > click <strong>Threshold</strong> tab</label></div>
+
+  <div class="step"><input type="checkbox" id="s6"><label for="s6">Click <strong>Add New Threshold Rule</strong> > select <strong>Band B5 (NIR)</strong> from pre-fire image > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s7"><label for="s7">Drag red slider from <strong>0 to ~10000</strong> > click <strong>Preview</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s8"><label for="s8">Adjust right slider until <strong>ONLY water pixels</strong> are highlighted (not burn scars or vegetation). Use middle mouse button to zoom the histogram.</label></div>
+
+  <div class="step"><input type="checkbox" id="s9"><label for="s9">Click <strong>OK</strong> in Choose Threshold Parameters > close ROI Tool</label></div>
+
+  <div class="step"><input type="checkbox" id="s10"><label for="s10">Toolbox > search <strong>"build raster mask"</strong> > double-click</label></div>
+
+  <div class="step"><input type="checkbox" id="s11"><label for="s11">In Build Raster Mask Input File, select the <strong>pre-fire metadata file</strong> (7 optical bands) > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s12"><label for="s12">Options > <strong>Import ROIs</strong> > select Water ROI > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s13"><label for="s13">Options > <strong>Selected Areas "Off"</strong> (water = 0, everything else = 1)</label></div>
+
+  <div class="step"><input type="checkbox" id="s14"><label for="s14">Save as <span class="filename">PreFireWaterMask.dat</span> > OK</label></div>
+
+  <div class="note warn">Check your mask looks right: water bodies should be black (0), everything else white (1).</div>
+
+  <div class="step"><input type="checkbox" id="s15"><label for="s15">Toolbox > search <strong>"spectral indices"</strong> > double-click</label></div>
+
+  <div class="step"><input type="checkbox" id="s16"><label for="s16">In File Selection, select the <strong>pre-fire multispectral image</strong> > click <strong>Mask...</strong> > select <span class="filename">PreFireWaterMask.dat</span> > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s17"><label for="s17">In Index list, select <strong>Normalized Burn Ratio</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s18"><label for="s18">Output Raster: <span class="filename">PreFireNBR.dat</span> > OK</label></div>
+
+  <div class="note skip">SKIPPED: Step 2.2 — No radiometric calibration needed. You just computed NBR directly on the raw image.</div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="phase">
+  <div class="phase-header">Phase 2: Post-Fire Water Mask + NBR <span class="tag">~20 min</span></div>
+
+  <div class="note">Do this yourself so you don't wait on Person B.</div>
+
+  <div class="step"><input type="checkbox" id="s19"><label for="s19">Open post-fire image: <strong>File > Open</strong> > navigate to post-fire folder > select <span class="filename">*_MTL.xml</span> > Open</label></div>
+
+  <div class="step"><input type="checkbox" id="s20"><label for="s20">Right-click layer > <strong>Zoom to Layer Extent</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s21"><label for="s21">Right-click <strong>Post Fire image</strong> > <strong>New Region of Interest</strong> > rename to <strong>"Water ROI"</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s22"><label for="s22">ROI Tool > <strong>Threshold</strong> tab > <strong>Add New Threshold Rule</strong> > select <strong>B5 (NIR)</strong> from post-fire > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s23"><label for="s23">Drag slider <strong>0 to ~10000</strong> > Preview > adjust until <strong>ONLY water</strong> highlighted > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s24"><label for="s24">Toolbox > <strong>"build raster mask"</strong> > select post-fire metadata (7 bands) > Import ROIs > Water ROI > Selected Areas <strong>"Off"</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s25"><label for="s25">Save as <span class="filename">PostFireWaterMask.dat</span> > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s26"><label for="s26">Toolbox > <strong>"spectral indices"</strong> > select <strong>post-fire multispectral image</strong> > Mask > <span class="filename">PostFireWaterMask.dat</span></label></div>
+
+  <div class="step"><input type="checkbox" id="s27"><label for="s27">Select <strong>Normalized Burn Ratio</strong> > save as <span class="filename">PostFireNBR.dat</span> > OK</label></div>
+</div>
+
+<!-- PHASE 3 -->
+<div class="phase">
+  <div class="phase-header">Phase 3: Create dNBR Image <span class="tag">~15 min</span></div>
+
+  <div class="step"><input type="checkbox" id="s28"><label for="s28">Toolbox > search <strong>"build layer stack"</strong> > double-click</label></div>
+
+  <div class="step"><input type="checkbox" id="s29"><label for="s29">Click <strong>Input Rasters Browse (...)</strong> > Ctrl+click to select both <span class="filename">PreFireNBR.dat</span> and <span class="filename">PostFireNBR.dat</span> > OK</label></div>
+
+  <div class="note warn"><strong>IMPORTANT:</strong> Note the order! If PreFireNBR.dat is listed on top, then Band 1 = PreFire, Band 2 = PostFire. You need this for step 10.</div>
+
+  <div class="step"><input type="checkbox" id="s30"><label for="s30">Keep defaults > save as <span class="filename">NBRLayerStack.dat</span> > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s31"><label for="s31">Toolbox > expand <strong>Band Algebra</strong> > double-click <strong>Band Math</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s32"><label for="s32">Enter expression: <span class="filename">float(b2 - b1)</span></label></div>
+
+  <div class="step"><input type="checkbox" id="s33"><label for="s33">Click <strong>Add to List</strong> > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s34"><label for="s34">With <strong>B1 - [undefined]</strong> selected > click Layer > NBRLayerStack.dat > select the <strong>PostFireNBR</strong> band</label></div>
+
+  <div class="step"><input type="checkbox" id="s35"><label for="s35">Select <strong>B2 - [undefined]</strong> > click Layer > NBRLayerStack.dat > select the <strong>PreFireNBR</strong> band</label></div>
+
+  <div class="note warn"><strong>Result = PreFire minus PostFire.</strong> Positive values = burn. This is correct per USGS FIREMON.</div>
+
+  <div class="step"><input type="checkbox" id="s36"><label for="s36">Output Result to: <strong>"Memory"</strong> > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s37"><label for="s37">Screenshot the dNBR image (brighter = more severe burn)</label></div>
+</div>
+
+<!-- PHASE 4 -->
+<div class="phase">
+  <div class="phase-header">Phase 4: Burn Severity Map + Area Calculation <span class="tag">~20 min</span></div>
+
+  <div class="step"><input type="checkbox" id="s38"><label for="s38">Right-click <strong>Memory</strong> layer > <strong>New Raster Color Slice</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s39"><label for="s39">Select the <strong>Band Math</strong> band under Memory > OK</label></div>
+
+  <div class="step"><input type="checkbox" id="s40"><label for="s40">In Edit Raster Color Slices, click <strong>Clear Color Slices</strong></label></div>
+
+  <div class="step"><input type="checkbox" id="s41"><label for="s41">Click <strong>Add Color Slice</strong> and create these 7 slices:</label></div>
+
+  <table class="severity-table">
+    <tr><th>Min</th><th>Max</th><th>Severity</th><th>Colour</th></tr>
+    <tr><td>(min value)</td><td>-0.25</td><td>High post-fire regrowth</td><td><span class="swatch" style="background:#006400"></span>Dark green</td></tr>
+    <tr><td>-0.25</td><td>-0.1</td><td>Low post-fire regrowth</td><td><span class="swatch" style="background:#90ee90"></span>Light green</td></tr>
+    <tr><td>-0.1</td><td>0.1</td><td>Unburned</td><td><span class="swatch" style="background:#999"></span>Grey</td></tr>
+    <tr><td>0.1</td><td>0.27</td><td>Low-severity burn</td><td><span class="swatch" style="background:#facc15"></span>Yellow</td></tr>
+    <tr><td>0.27</td><td>0.44</td><td>Moderate-low severity</td><td><span class="swatch" style="background:#f97316"></span>Orange</td></tr>
+    <tr><td>0.44</td><td>0.66</td><td>Moderate-high severity</td><td><span class="swatch" style="background:#ef4444"></span>Red</td></tr>
+    <tr><td>0.66</td><td>(max value)</td><td>High-severity burn</td><td><span class="swatch" style="background:#7f1d1d"></span>Dark red</td></tr>
+  </table>
+
+  <div class="step"><input type="checkbox" id="s42"><label for="s42">Turn on the post-fire image layer so the severity map overlays on it</label></div>
+
+  <div class="step"><input type="checkbox" id="s43"><label for="s43">Right-click <strong>Slices</strong> > <strong>Statistics for All Color Slices</strong> > record pixel counts for each category</label></div>
+
+  <div class="note warn"><strong>Watch for NoData!</strong> If you see a class with a huge fill value (~1x10^34), that is NoData — exclude it from your area calculation.</div>
+
+  <div class="step"><input type="checkbox" id="s44"><label for="s44">Calculate total burnt area: sum pixels where dNBR >= 0.1 (the 4 burn classes) x 900 m^2, then convert to km^2 and ha</label></div>
+
+  <div class="note">Formula: burnt pixels x 900 / 1,000,000 = km^2 &nbsp;|&nbsp; burnt pixels x 900 / 10,000 = ha</div>
+
+  <div class="step"><input type="checkbox" id="s45"><label for="s45">Screenshot the severity map (with post-fire image underneath)</label></div>
+
+  <div class="note warn"><strong>ENVI does NOT save Color Slices to session!</strong> Take your screenshots and record stats NOW before closing.</div>
+</div>
+
+<!-- OUTPUT -->
+<div class="output">
+  <h3>Your deliverables for the Google Doc</h3>
+  <ul>
+    <li>dNBR screenshot</li>
+    <li>Severity map screenshot (overlaid on post-fire image)</li>
+    <li>Area calculation table (pixel counts per class + total burnt area in km^2 / ha)</li>
+    <li>Results section (~600 words): describe all images (yours + Person A's screenshots + Person B's BAI/NBR), present area stats, analyse burn patterns</li>
+  </ul>
+</div>
+
+<script>
+  const boxes = document.querySelectorAll('input[type="checkbox"]');
+  const progCount = document.getElementById('prog-count');
+  const progTotal = document.getElementById('prog-total');
+  const progFill = document.getElementById('prog-fill');
+  progTotal.textContent = boxes.length;
+
+  // Load saved state
+  const saved = JSON.parse(localStorage.getItem('geom-c-checks') || '{}');
+  boxes.forEach(cb => {
+    if (saved[cb.id]) { cb.checked = true; cb.closest('.step').classList.add('checked'); }
+  });
+  update();
+
+  boxes.forEach(cb => cb.addEventListener('change', () => {
+    cb.closest('.step').classList.toggle('checked', cb.checked);
+    const state = {};
+    boxes.forEach(b => { if (b.checked) state[b.id] = true; });
+    localStorage.setItem('geom-c-checks', JSON.stringify(state));
+    update();
+  }));
+
+  function update() {
+    const done = [...boxes].filter(b => b.checked).length;
+    progCount.textContent = done;
+    progFill.style.width = (done / boxes.length * 100) + '%';
+  }
+</script>
+
+</body>
+</html>
