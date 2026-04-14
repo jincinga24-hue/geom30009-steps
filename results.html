@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEOM30009 — Results Section Draft</title>
+    <style>
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.8;
+            color: #222;
+            background: #fafafa;
+        }
+        h2 {
+            font-size: 1.5rem;
+            border-bottom: 2px solid #333;
+            padding-bottom: 6px;
+            margin-top: 40px;
+        }
+        h3 {
+            font-size: 1.1rem;
+            margin-top: 28px;
+            color: #444;
+        }
+        p {
+            text-align: justify;
+            margin: 12px 0;
+        }
+        .placeholder {
+            background: #fff3cd;
+            border: 1px dashed #d4a017;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-style: italic;
+            color: #856404;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #2c3e50;
+            color: #fff;
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+        .swatch {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        .total-row {
+            font-weight: bold;
+            background: #e8f4f8 !important;
+            border-top: 2px solid #2c3e50;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #c0392b;
+        }
+        .note {
+            background: #e8f4f8;
+            border-left: 4px solid #2980b9;
+            padding: 10px 14px;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        .validation {
+            background: #e8f8e8;
+            border-left: 4px solid #22c55e;
+            padding: 10px 14px;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Results</h2>
+
+<p>The visual, index-based, and differenced analyses of the two Landsat 9 scenes (pre-fire: 7 January 2026; post-fire: 23 January 2026) together reveal the spatial extent and severity of the January 2026 Victorian bushfires.</p>
+
+<h3>Visual analysis (Task 1)</h3>
+<p>The natural colour composites of the pre-fire and post-fire images show a clear change in surface cover across regional Victoria. Before the fires, vegetated regions appear as continuous green tones, while after the fires, dark brown to reddish-brown patches emerge, corresponding to charred vegetation and exposed soil. The false colour composite (B7/B5/B2) of the post-fire image enhances these burn scars strongly, rendering burnt areas as vivid red-brown zones against the bright green of healthy vegetation, which assists qualitative identification of the fire perimeter.</p>
+
+<div class="placeholder">INSERT: Person A's pre-fire natural colour, post-fire natural colour, post-fire false colour, and side-by-side comparison screenshots here.</div>
+
+<h3>Burn indices (Task 2)</h3>
+<p>The BAI and NBR images generated from the post-fire scene both isolate burn scars but with different sensitivities. Brighter pixels in the BAI and darker pixels in the NBR correspond to burnt surfaces. As expected, NBR more cleanly separates burnt from unburnt vegetation because it exploits the strong contrast between the NIR and SWIR bands, which is highly sensitive to the loss of chlorophyll and the exposure of charred material.</p>
+
+<div class="placeholder">INSERT: Person B's BAI and NBR screenshots with colour bars, and their comparison paragraph.</div>
+
+<h3>Differenced NBR (Task 3)</h3>
+<p>Subtracting the post-fire NBR from the pre-fire NBR produced the &Delta;NBR image, in which brighter pixels indicate a greater drop in NBR between the two dates and hence more severe burning. A prominent cluster of bright pixels is visible in the central-north portion of the scene, consistent with the locations of major January 2026 bushfires near Harcourt, Skipton, and Longwood.</p>
+
+<div class="placeholder">INSERT: dNBR screenshot here.</div>
+
+<h3>Burn severity classification and area calculation</h3>
+<p>The &Delta;NBR image was reclassified into the seven USGS FIREMON burn severity categories using a raster colour slice. After excluding NoData/fill pixels (which initially populated a large background class at a fill value of ~1&times;10<sup>34</sup>), the pixel counts for each severity class are presented in Table 1.</p>
+
+<table>
+    <caption style="text-align:left; font-weight:bold; margin-bottom:8px;">Table 1. Burn severity classification based on &Delta;NBR values.</caption>
+    <thead>
+        <tr>
+            <th>Severity class (&Delta;NBR range)</th>
+            <th>Pixel count</th>
+            <th>Area (ha)</th>
+            <th>Area (km&sup2;)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><span class="swatch" style="background:#006400"></span>High post-fire regrowth (&lt; &minus;0.25)</td>
+            <td>277,097</td>
+            <td>24,939</td>
+            <td>249.4</td>
+        </tr>
+        <tr>
+            <td><span class="swatch" style="background:#90ee90"></span>Low post-fire regrowth (&minus;0.25 to &minus;0.1)</td>
+            <td>27,825</td>
+            <td>2,504</td>
+            <td>25.0</td>
+        </tr>
+        <tr>
+            <td><span class="swatch" style="background:#999"></span>Unburned (&minus;0.1 to 0.1)</td>
+            <td>54,379,953</td>
+            <td>4,894,196</td>
+            <td>48,942.0</td>
+        </tr>
+        <tr>
+            <td><span class="swatch" style="background:#facc15"></span>Low-severity burn (0.1 to 0.27)</td>
+            <td>3,432,054</td>
+            <td>308,885</td>
+            <td>3,088.9</td>
+        </tr>
+        <tr>
+            <td><span class="swatch" style="background:#f97316"></span>Moderate&ndash;low severity (0.27 to 0.44)</td>
+            <td>562,207</td>
+            <td>50,599</td>
+            <td>506.0</td>
+        </tr>
+        <tr>
+            <td><span class="swatch" style="background:#ef4444"></span>Moderate&ndash;high severity (0.44 to 0.66)</td>
+            <td>56,207</td>
+            <td>5,059</td>
+            <td>50.6</td>
+        </tr>
+        <tr>
+            <td><span class="swatch" style="background:#7f1d1d"></span>High-severity burn (&gt; 0.66)</td>
+            <td>31,465</td>
+            <td>2,832</td>
+            <td>28.3</td>
+        </tr>
+        <tr class="total-row">
+            <td>Total burnt area (&Delta;NBR &ge; 0.1)</td>
+            <td>4,081,933</td>
+            <td>367,374</td>
+            <td>3,673.7</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Each Landsat 9 pixel represents 30&nbsp;m &times; 30&nbsp;m = 900&nbsp;m&sup2; on the ground. Summing the four burn classes (&Delta;NBR &ge; 0.1) gives a total burnt area of <span class="highlight">4,081,933 pixels = 3,673.7&nbsp;km&sup2; (367,374&nbsp;ha)</span>. The majority of the burn footprint falls within the low-severity class (84% of burnt pixels), while moderate and high severity burns are comparatively rare, suggesting that although the fires covered a vast area, intense combustion was concentrated in smaller hotspots.</p>
+
+<div class="validation">
+    <strong>Validation:</strong> This figure aligns broadly with official reports, which estimate the January 2026 Victorian bushfires burnt over 400,000&nbsp;ha statewide (vic.gov.au, 2026).
+</div>
+
+<h3>Spatial patterns</h3>
+<p>The severity map shows that burnt pixels are clustered rather than uniformly distributed &mdash; the largest continuous burn area occurs in the central-north region, surrounded by fragmented patches of low and moderate severity. Unburnt terrain dominates the scene (~93% of valid pixels), reflecting that the fires, while extensive, were regionally bounded. Pre-fire regrowth areas are small and scattered, mostly near agricultural margins.</p>
+
+<div class="placeholder">INSERT: Severity map screenshot here.</div>
+
+</body>
+</html>
